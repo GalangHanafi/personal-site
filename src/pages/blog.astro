@@ -4,16 +4,11 @@ import { Picture } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
+import { object, string } from "astro/zod";
 
-// Filter blog entries with 'draft: false' & date before current date
-const publishedBlogEntries = await getCollection("blog", ({ data }) => {
-  return !data.draft && data.publishDate < new Date();
-});
-
-// Sort content entries by publication date
-publishedBlogEntries.sort(function (a, b) {
-  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
-});
+const response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
+const data = await response.json();
+const posts = data.results;
 ---
 
 <Layout title="Blog">
@@ -27,13 +22,13 @@ publishedBlogEntries.sort(function (a, b) {
     <main class="mt-16">
       <ul class="grid gap-16 max-w-4xl mx-auto">
         {
-          publishedBlogEntries.map((blogPostEntry, index) => (
+          posts.map((post, index) => (
             <li>
-              <a href={`/blog/${blogPostEntry.slug}`}>
+              <a href={`/blog/${post.id}`}>
                 <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
                   <Picture
-                    src={blogPostEntry.data.image.src}
-                    alt={blogPostEntry.data.image.alt}
+                    src={post.properties.thumbnail.files[0].file.url}
+                    alt={post.properties.title.title[0].plain_text}
                     sizes="(max-width: 800px) 100vw, 800px"
                     width={800}
                     height={600}
@@ -43,22 +38,21 @@ publishedBlogEntries.sort(function (a, b) {
                   />
                   <div>
                     <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">
-                      {blogPostEntry.data.category}
+                      {post.properties.category.select.name}
                     </span>
 
                     <h2 class="text-3xl font-semibold leading-snug tracking-tight mt-1 ">
-                      {blogPostEntry.data.title}
+                      {post.properties.title.title[0].plain_text}
                     </h2>
 
                     <div class="flex gap-2 mt-3">
                       <span class="text-gray-400">
-                        {blogPostEntry.data.author}
+                        {/* {post.properties.author} */}
+                        author
                       </span>
                       <span class="text-gray-400">• </span>
-                      <time
-                        class="text-gray-400"
-                        datetime={blogPostEntry.data.publishDate.toISOString()}>
-                        {blogPostEntry.data.publishDate.toDateString()}
+                      <time class="text-gray-400" datetime={post.created_time}>
+                        {post.created_time.split("T")[0]}
                       </time>
                     </div>
                   </div>

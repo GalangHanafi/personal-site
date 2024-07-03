@@ -10,16 +10,17 @@ const response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
 const data = await response.json();
 let posts = data.results;
 posts = posts.filter(
-  (post) => post.properties.category.select.name !== "project",
+  (post) => post.properties.category.select.name === "project",
 );
 ---
 
 <Layout title="Blog">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Our Blog</Fragment>
+      <Fragment slot="title">My Projects</Fragment>
       <Fragment slot="desc">
-        We write about building startups and thoughts going on our mind.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dicta
+        impedit harum.
       </Fragment>
     </Sectionhead>
     <main class="mt-16">

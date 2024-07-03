@@ -28,7 +28,7 @@ posts = posts.filter(
         {
           posts.map((post, index) => (
             <li>
-              <a href={`/blog/${post.id}`}>
+              <a href={`/post/${post.id}`}>
                 <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
                   <Picture
                     src={post.properties.thumbnail.files[0].file.url}

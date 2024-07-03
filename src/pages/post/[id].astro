@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import { Picture } from "astro:assets";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/container.astro";
+
+const { id } = Astro.params;
+
+export async function getStaticPaths() {
+  var response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
+  const posts = await response.json();
+  const params: { params: { id: string } }[] = [];
+  posts.results.forEach((post) => {
+    params.push({ params: { id: post.id } });
+  });
+
+  return params;
+}
+
+var response = await fetch(`${import.meta.env.APP_URL}/api/posts/${id}.json`);
+var data = await response.json();
+const postsBlock = data.results;
+
+var response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
+const posts = await response.json();
+const post = await posts.results.find((post) => post.id === id);
+---
+
+<Layout title={post.properties.title.title[0].plain_text}>
+  <Container>
+    <div class="mx-auto max-w-3xl mt-14">
+      <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">
+        {post.properties.category.select.name}
+      </span>
+      <h1
+        class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-1 lg:leading-tight">
+        {post.properties.title.title[0].plain_text}
+      </h1>
+      <div class="flex gap-2 mt-3 items-center flex-wrap md:flex-nowrap">
+        <span class="text-gray-400">
+          <!-- {entry.data.author} -->
+        </span>
+        <span class="text-gray-400">•</span>
+        <time
+          class="text-gray-400"
+          datetime={post.properties.published_at.date.start}>
+          {post.properties.published_at.date.start}
+        </time>
+        <span class="text-gray-400 hidden md:block">•</span>
+        <div class="w-full md:w-auto flex flex-wrap gap-3">
+          {
+            post.properties.tags.multi_select.map((tag) => (
+              <span class="text-sm text-gray-500">#{tag.name}</span>
+            ))
+          }
+        </div>
+      </div>
+
+      <Picture
+        src={post.properties.thumbnail.files[0].file.url}
+        alt={post.properties.title.title[0].plain_text}
+        sizes="(max-width: 800px) 100vw, 800px"
+        width={800}
+        height={600}
+        class="w-full rounded-md object-cover object-center bg-white"
+      />
+    </div>
+
+    <div class="mx-auto prose prose-lg mt-6 max-w-3xl">
+      <!-- <Content /> -->
+    </div>
+    <div class="text-center mt-8">
+      <a
+        href="/blog"
+        class="bg-gray-100 px-5 py-3 rounded-md hover:bg-gray-200 transition"
+        >← Back to Blog</a
+      >
+    </div>
+  </Container>
+</Layout>

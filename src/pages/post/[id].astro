@@ -1,5 +1,4 @@
 ---
-import { getCollection } from "astro:content";
 import { Picture } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
@@ -17,13 +16,15 @@ export async function getStaticPaths() {
   return params;
 }
 
+// get post from id
+var response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
+var data = await response.json();
+const post = await data.results.find((post) => post.id === id);
+
+// get post block
 var response = await fetch(`${import.meta.env.APP_URL}/api/posts/${id}.json`);
 var data = await response.json();
-const postsBlock = data.results;
-
-var response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
-const posts = await response.json();
-const post = await posts.results.find((post) => post.id === id);
+const postBlock = data;
 ---
 
 <Layout title={post.properties.title.title[0].plain_text}>
@@ -67,7 +68,7 @@ const post = await posts.results.find((post) => post.id === id);
     </div>
 
     <div class="mx-auto prose prose-lg mt-6 max-w-3xl">
-      <!-- <Content /> -->
+      <md-block>{postBlock}</md-block>
     </div>
     <div class="text-center mt-8">
       <a
@@ -78,3 +79,6 @@ const post = await posts.results.find((post) => post.id === id);
     </div>
   </Container>
 </Layout>
+<script>
+  import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "md-block";
+</script>

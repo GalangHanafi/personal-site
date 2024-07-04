@@ -1,17 +1,23 @@
 import type { APIRoute } from 'astro';
 import { Client } from '@notionhq/client';
+import { NotionToMarkdown } from "notion-to-md";
 
 export const GET: APIRoute = async ({ params, request }) => {
     const id = params.id as string;
     const notion = new Client({ auth: import.meta.env.NOTION_API_KEY });
 
     const blockId = id;
-    const response = await notion.blocks.children.list({
-        block_id: blockId,
-        page_size: 100,
-    });
+    // const notionBlocks = await notion.blocks.children.list({
+    //     block_id: blockId,
+    //     page_size: 100,
+    // });
 
-    return new Response(JSON.stringify(response));
+    const n2m = new NotionToMarkdown({ notionClient: notion });
+
+    const mdblocks = await n2m.pageToMarkdown(id);
+    const mdString = n2m.toMarkdownString(mdblocks);
+
+    return new Response(JSON.stringify(mdString.parent));
 }
 
 export async function getStaticPaths() {

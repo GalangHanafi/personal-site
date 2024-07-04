@@ -1,16 +1,15 @@
 ---
-import { getCollection } from "astro:content";
 import { Picture } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
-import { object, string } from "astro/zod";
+import { getPosts } from "@utils/posts/getPosts";
 
-const response = await fetch(`${Astro.url.origin}/api/posts.json`);
-const data = await response.json();
-let posts = data.results;
-posts = posts.filter(
-  (post) => post.properties.category.select.name === "project",
+let posts: any = await getPosts("project");
+
+console.log(
+  await getPosts(),
+  "\n========================================================",
 );
 ---
 
@@ -26,7 +25,7 @@ posts = posts.filter(
     <main class="mt-16">
       <ul class="grid gap-16 max-w-4xl mx-auto">
         {
-          posts.map((post, index) => (
+          posts.results.map((post, index) => (
             <li>
               <a href={`/post/${post.id}`}>
                 <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">

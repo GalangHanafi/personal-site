@@ -6,7 +6,7 @@ import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 import { object, string } from "astro/zod";
 
-const response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
+const response = await fetch(`${Astro.url.origin}/api/posts.json`);
 const data = await response.json();
 let posts = data.results;
 posts = posts.filter(

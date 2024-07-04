@@ -2,29 +2,25 @@
 import { Picture } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
+import { getPosts } from "@utils/posts/getPosts";
+import { getPostDetails } from "@utils/posts/getPostDetails";
+import { getPostBlocks } from "@utils/posts/getPostBlocks";
 
 const { id } = Astro.params;
 
 export async function getStaticPaths() {
-  var response = await fetch(`${import.meta.env.APP_URL}/api/posts.json`);
-  const posts = await response.json();
-  const params: { params: { id: string } }[] = [];
-  posts.results.forEach((post) => {
-    params.push({ params: { id: post.id } });
-  });
+  const posts = await getPosts();
+  const postsId = posts.results.map((post) => post.id);
+  const params = postsId.map((post) => ({ params: { id: post } }));
 
   return params;
 }
 
-// get post from id
-var response = await fetch(`${Astro.url.origin}/api/posts.json`);
-var data = await response.json();
-const post = await data.results.find((post) => post.id === id);
+// get post details from id
+const post = await getPostDetails(id);
 
 // get post block
-var response = await fetch(`${Astro.url.origin}/api/posts/${id}.json`);
-var data = await response.json();
-const postBlock = data.parent;
+const postBlocks = await getPostBlocks(id);
 ---
 
 <Layout title={post.properties.title.title[0].plain_text}>
@@ -68,7 +64,7 @@ const postBlock = data.parent;
     </div>
 
     <div class="mx-auto prose prose-lg mt-6 max-w-3xl">
-      <md-block>{postBlock}</md-block>
+      <md-block>{postBlocks.parent}</md-block>
     </div>
     <div class="text-center mt-8">
       <a

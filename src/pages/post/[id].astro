@@ -24,7 +24,7 @@ const post = await data.results.find((post) => post.id === id);
 // get post block
 var response = await fetch(`${import.meta.env.APP_URL}/api/posts/${id}.json`);
 var data = await response.json();
-const postBlock = data;
+const postBlock = data.parent;
 ---
 
 <Layout title={post.properties.title.title[0].plain_text}>
@@ -39,7 +39,7 @@ const postBlock = data;
       </h1>
       <div class="flex gap-2 mt-3 items-center flex-wrap md:flex-nowrap">
         <span class="text-gray-400">
-          <!-- {entry.data.author} -->
+          {"Author"}
         </span>
         <span class="text-gray-400">•</span>
         <time

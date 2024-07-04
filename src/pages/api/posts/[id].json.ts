@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     const mdblocks = await n2m.pageToMarkdown(id);
     const mdString = n2m.toMarkdownString(mdblocks);
 
-    return new Response(JSON.stringify(mdString.parent));
+    return new Response(JSON.stringify(mdString));
 }
 
 export async function getStaticPaths() {

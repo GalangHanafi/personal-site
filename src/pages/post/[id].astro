@@ -5,7 +5,6 @@ import Container from "@components/container.astro";
 import { getPosts } from "@utils/posts/getPosts";
 import { getPostDetails } from "@utils/posts/getPostDetails";
 import { getPostBlocks } from "@utils/posts/getPostBlocks";
-// import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "md-block";
 
 const { id } = Astro.params;
 
@@ -77,5 +76,9 @@ const postBlocks = await getPostBlocks(id);
   </Container>
 </Layout>
 <script is:inline>
-  import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "md-block";
+  import {
+    MarkdownBlock,
+    MarkdownSpan,
+    MarkdownElement,
+  } from "https://md-block.verou.me/md-block.js";
 </script>

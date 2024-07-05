@@ -6,11 +6,6 @@ import Sectionhead from "@components/sectionhead.astro";
 import { getPosts } from "@utils/posts/getPosts";
 
 let posts: any = await getPosts("project");
-
-console.log(
-  await getPosts(),
-  "\n========================================================",
-);
 ---
 
 <Layout title="Blog">

@@ -5,6 +5,7 @@ import Container from "@components/container.astro";
 import { getPosts } from "@utils/posts/getPosts";
 import { getPostDetails } from "@utils/posts/getPostDetails";
 import { getPostBlocks } from "@utils/posts/getPostBlocks";
+// import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "md-block";
 
 const { id } = Astro.params;
 
@@ -17,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 // get post details from id
-const post = await getPostDetails(id);
+const post: any = await getPostDetails(id);
 
 // get post block
 const postBlocks = await getPostBlocks(id);
@@ -75,6 +76,6 @@ const postBlocks = await getPostBlocks(id);
     </div>
   </Container>
 </Layout>
-<script>
+<script is:inline>
   import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "md-block";
 </script>

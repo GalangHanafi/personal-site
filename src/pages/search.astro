@@ -9,10 +9,9 @@ import SearchedPosts from "@components/searchedPosts.vue";
 <Layout title="Blog">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">My Projects</Fragment>
-      <Fragment slot="desc">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dicta
-        impedit harum.
+      <Fragment slot="title">Search Results for</Fragment>
+      <Fragment slot="title">
+        <p>"<span id="query"></span>"</p>
       </Fragment>
     </Sectionhead>
     <main class="mt-16">
@@ -22,3 +21,11 @@ import SearchedPosts from "@components/searchedPosts.vue";
     </main>
   </Container>
 </Layout>
+
+<script is:inline>
+  $(document).ready(function () {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get("q");
+    $("#query").html(query);
+  });
+</script>

@@ -1,0 +1,24 @@
+---
+import { Picture } from "astro:assets";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/container.astro";
+import Sectionhead from "@components/sectionhead.astro";
+import SearchedPosts from "@components/searchedPosts.vue";
+---
+
+<Layout title="Blog">
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">My Projects</Fragment>
+      <Fragment slot="desc">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dicta
+        impedit harum.
+      </Fragment>
+    </Sectionhead>
+    <main class="mt-16">
+      <ul class="grid gap-16 max-w-4xl mx-auto">
+        <SearchedPosts client:load />
+      </ul>
+    </main>
+  </Container>
+</Layout>

@@ -1,6 +1,7 @@
 ---
 import Container from "@components/container.astro";
 import Link from "@components/ui/link.astro";
+import SearchInput from "@components/searchInput.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
@@ -24,10 +25,10 @@ const menuitems: MenuItem[] = [
     title: "Project",
     path: "/project",
   },
-  // {
-  //   title: "Contact",
-  //   path: "/contact",
-  // },
+  {
+    title: "Contact",
+    path: "/contact",
+  },
   // {
   //   title: "Features",
   //   path: "#",
@@ -116,7 +117,8 @@ const menuitems: MenuItem[] = [
     <div>
       <div class="hidden lg:flex items-center gap-4">
         <!-- <a href="#">Log in</a> -->
-        <Link href="/contact" size="md">Contact</Link>
+        <!-- <Link href="/contact" size="md">Contact</Link> -->
+        <SearchInput />
       </div>
     </div>
   </header>

@@ -1,0 +1,36 @@
+---
+const originUrl = Astro.url.origin;
+---
+
+<form id="searchForm">
+  <input
+    id="searchInput"
+    type="text"
+    placeholder="🔍 Search"
+    required
+    class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
+    name="search"
+  />
+</form>
+
+<script is:inline>
+  $(document).ready(function () {
+    const searchForm = $("#searchForm");
+    const searchInput = $("#searchInput");
+
+    const currentPath = window.location.pathname;
+
+    if (currentPath === "/search") {
+      let searchParams = new URLSearchParams(window.location.search);
+      let qParam = searchParams.get("q");
+
+      searchInput.val(qParam);
+    }
+
+    searchForm.submit(function (e) {
+      e.preventDefault();
+      window.location =
+        window.location.origin + "/search?q=" + searchInput.val();
+    });
+  });
+</script>

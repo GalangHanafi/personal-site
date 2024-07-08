@@ -25,6 +25,7 @@
       "@pages/*": [
         "pages/*"
       ]
-    }
+    },
+    "jsx": "preserve"
   }
 }

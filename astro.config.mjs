@@ -12,7 +12,7 @@ import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
   site: "https://astroship.web3templates.com",
   integrations: [tailwind(), mdx(), sitemap(), icon()],
-  output: "server",
+  output: "hybrid",
   adapter: vercel({
     isr: {
       // cache for 1 hour

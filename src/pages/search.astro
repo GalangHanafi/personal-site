@@ -31,3 +31,11 @@ import SearchedPosts from "@components/searchedPosts.vue";
     $("#query").html(query);
   });
 </script>
+
+<script is:inline>
+  $(document).ready(function () {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get("q");
+    $("#query").html(query);
+  });
+</script>

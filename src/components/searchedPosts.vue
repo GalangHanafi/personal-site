@@ -11,15 +11,23 @@ onMounted(() => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get("q");
 
+    if (!query) {
+      posts.value = [];
+      error.value = "No query provided";
+      loading.value = false;
+      return;
+    }
+
     try {
       const res = await fetch(`${originUrl}/api/posts.json`);
 
       if (res.ok) {
         const data = await res.json();
+        const queryWords = query.toLowerCase().split(" ");
+
         const searchedPosts = data.results.filter((post) => {
-          return post.properties.title.title[0].plain_text
-            .toLowerCase()
-            .includes(query.toLowerCase());
+          const title = post.properties.title.title[0].plain_text.toLowerCase();
+          return queryWords.every((word) => title.includes(word));
         });
 
         if (searchedPosts.length !== 0) {
@@ -28,6 +36,8 @@ onMounted(() => {
           posts.value = [];
           error.value = "No results found";
         }
+      } else {
+        throw new Error("Failed to fetch posts");
       }
     } catch (err) {
       error.value = err.message;
@@ -66,7 +76,7 @@ onMounted(() => {
 
   <div v-else>
     <p v-if="error" class="text-3xl text-center py-10">{{ error }}</p>
-    <ul v-else>
+    <ul class="grid gap-16 max-w-4xl mx-auto">
       <li v-for="post in posts" :key="post.id">
         <a :href="'/post/' + post.id">
           <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">

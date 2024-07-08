@@ -17,9 +17,7 @@ import SearchedPosts from "@components/searchedPosts.vue";
       <Fragment slot="desc">{" "}</Fragment>
     </Sectionhead>
     <main class="mt-16">
-      <ul class="grid gap-16 max-w-4xl mx-auto">
-        <SearchedPosts client:load />
-      </ul>
+      <SearchedPosts client:load />
     </main>
   </Container>
 </Layout>

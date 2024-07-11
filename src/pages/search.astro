@@ -10,7 +10,7 @@ import SearchedPosts from "@components/searchedPosts.vue";
     <Sectionhead>
       <Fragment slot="title">
         Search Results for <br />
-        "<span id="query"></span>"
+        "<span id="queryDisplay"></span>"
       </Fragment>
       <p></p>
       <Fragment slot="desc">{" "}</Fragment>
@@ -22,17 +22,8 @@ import SearchedPosts from "@components/searchedPosts.vue";
 </Layout>
 
 <script is:inline>
-  $(document).ready(function () {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("q");
-    $("#query").html(query);
-  });
-</script>
-
-<script is:inline>
-  $(document).ready(function () {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("q");
-    $("#query").html(query);
-  });
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get("q");
+  const queryDisplay = document.getElementById("queryDisplay");
+  queryDisplay.innerHTML = query;
 </script>

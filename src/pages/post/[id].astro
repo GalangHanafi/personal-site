@@ -8,14 +8,16 @@ import { getPosts } from "@utils/posts/getPosts";
 import { getPostDetails } from "@utils/posts/getPostDetails";
 import { getPostBlocks } from "@utils/posts/getPostBlocks";
 
+const AvailablePages = await getPosts();
+const availablePagesId = await AvailablePages.results.map((page) => page.id);
+
 const { id } = Astro.params;
 
-export async function getStaticPaths() {
-  const posts = await getPosts();
-  const postsId = posts.results.map((post) => post.id);
-  const params = postsId.map((post) => ({ params: { id: post } }));
+const page = availablePagesId.find((page) => page === id);
 
-  return params;
+// check if page exists
+if (!page || !id) {
+  return Astro.redirect("/404");
 }
 
 // get post details from id

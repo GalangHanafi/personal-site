@@ -21,6 +21,10 @@ const { title } = Astro.props;
 const makeTitle = title
   ? title + " | " + "Astroship"
   : "Astroship - Starter Template for Astro with Tailwind CSS";
+
+const origin = Astro.url.origin;
+const jqueryUrl = origin + "/assets/js/jquery.min.js";
+console.log(jqueryUrl);
 ---
 
 <!doctype html>
@@ -55,14 +59,12 @@ const makeTitle = title
     />
 
     <!-- import jquery -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
-      crossorigin="anonymous"></script>
+    <script is:inline src={jqueryUrl}></script>
   </head>
   <body>
     <Navbar />
     <slot />
+
     <Footer />
     <style is:global>
       /* Improve Page speed */

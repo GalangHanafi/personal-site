@@ -22,9 +22,7 @@ const makeTitle = title
   ? title + " | " + "Astroship"
   : "Astroship - Starter Template for Astro with Tailwind CSS";
 
-const origin = Astro.url.origin;
-const jqueryUrl = origin + "/assets/js/jquery.min.js";
-console.log(jqueryUrl);
+const jqueryUrl = Astro.url.origin + "/assets/js/jquery.min.js";
 ---
 
 <!doctype html>

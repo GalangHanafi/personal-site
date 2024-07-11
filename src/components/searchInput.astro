@@ -20,11 +20,19 @@ const { isMobile = false } = Astro.props;
 {
   (isMobile) && (
     <script is:inline>
-      var searchForm = document.getElementById("mobileSearchForm");
-      var searchInput = document.getElementById("mobileSearchInput");
-      searchForm.addEventListener("submit", (e) => {
+      var mobileSearchForm = document.getElementById("mobileSearchForm");
+      var mobileSearchInput = document.getElementById("mobileSearchInput");
+
+      if (window.location.pathname === "/search") {
+        let searchParams = new URLSearchParams(window.location.search);
+        let qParam = searchParams.get("q");
+
+        mobileSearchInput.value = qParam;
+      }
+
+      mobileSearchForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        window.location.href = `${window.location.origin}/search?q=${searchInput.value}`;
+        window.location.href = `${window.location.origin}/search?q=${mobileSearchInput.value}`;
       });
     </script>
   )
@@ -34,6 +42,14 @@ const { isMobile = false } = Astro.props;
   <script is:inline>
     var searchForm = document.getElementById("searchForm");
     var searchInput = document.getElementById("searchInput");
+
+    if (window.location.pathname === "/search") {
+      let searchParams = new URLSearchParams(window.location.search);
+      let qParam = searchParams.get("q");
+
+      searchInput.value = qParam;
+    }
+
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
       window.location.href = `${window.location.origin}/search?q=${searchInput.value}`;

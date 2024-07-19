@@ -15,7 +15,7 @@ export default defineConfig({
   adapter: vercel({
     isr: {
       // cache for 1 hour
-      expiration: 60 * 60
+      expiration: 60 * 1
     }
   })
 });

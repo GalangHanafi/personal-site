@@ -55,16 +55,13 @@ const jqueryUrl = Astro.url.origin + "/assets/js/jquery.min.js";
         },
       }}
     />
-
-    <!-- import jquery -->
-    <script is:inline src={jqueryUrl}></script>
   </head>
   <body>
     <Navbar />
     <slot />
 
     <Footer />
-    <style is:global>
+    <style is:global is:inline>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
       img {
